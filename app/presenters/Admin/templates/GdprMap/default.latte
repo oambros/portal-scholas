@@ -1,0 +1,83 @@
+{block content}
+    <div class="row">
+        <form id="map-selector" action="{link this}" method="get">
+            <select id="map-show" name="show" class="form-control">
+                    <option value="all" {if $map_choose == 'all'}selected{/if}>Vše</option>
+                    <option value="unsign" {if $map_choose == 'unsign'}selected{/if}>Nepodepsáno</option>
+                    <option value="sign" {if $map_choose == 'sign'}selected{/if}>Podepsáno</option>
+            </select>
+        </form>
+    </div>
+    <style>
+        #map {
+            width: 100%;
+            height: 600px;
+            background-color: grey;
+        }
+    </style>
+    <div class="row">
+        <div id="map"></div>
+    </div>
+    <script>
+        function initMap() {
+            var locations = [
+                {foreach $Subjects as $subject}
+                    [ '<strong>' + {$subject->name} + '</strong>, '+{$subject->street} + ' <br><strong>Podepsáno: </strong>' + {if $subject->sign}'ano'{else}'ne'{/if} + ' <br><strong>Počet subjektů: </strong>' + {if $subject->subject_count}{$subject->subject_count}{else}'neznámo'{/if} + ' <br><strong>Cena auditu: </strong>' + {if $subject->audit_price}{$subject->audit_price} + ' tis.'{else}'neznámo'{/if}+ ' <br><strong>Auditní team: </strong>' + {if $subject->team}{$subject->team->name} + ''{else}'zatím není'{/if}, {$subject->lat}, {$subject->lng}, {$subject->id}, {$subject->sign}, {if isset($selected_subject)}{if $subject->id == $selected_subject->id}true{else}false{/if}{else}false{/if}],
+                {/foreach}
+
+            ];
+            {if isset($selected_subject)}
+                var myLatLng = { lat: {$selected_subject->lat|noescape}, lng: {$selected_subject->lng|noescape} };
+                var zoom = 12;
+            {else}
+                var myLatLng = { lat: 49.7737094, lng: 15.0988635 };
+                var zoom = 7;
+            {/if}
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: zoom,
+                center: myLatLng
+            });
+
+            var count=0;
+
+
+            for (count = 0; count < locations.length; count++) {
+
+                var marker = new google.maps.Marker( {
+                    position: new google.maps.LatLng(locations[count][1], locations[count][2]),
+                    map: map
+                });
+
+                marker.info = new google.maps.InfoWindow( {
+                    content: locations [count][0]
+                } );
+                if(locations[count][5] == true) {
+                    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/yellow-dot.png');
+                }
+                else {
+                    if(locations [count][4] == true) {
+                        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+                    }
+                    else {
+                        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+                    }
+                }
+
+
+
+
+                google.maps.event.addListener(marker, 'click', function() {
+                    // this = marker
+                    var marker_map = this.getMap();
+                    this.info.open(marker_map, this);
+                    // Note: If you call open() without passing a marker, the InfoWindow will use the position specified upon construction through the InfoWindowOptions object literal.
+                });
+            }
+        }
+
+
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw-oKMFBGrE9h2nDGD4RDHsVJNWnE2QdU&callback=initMap">
+    </script>
+{/block}

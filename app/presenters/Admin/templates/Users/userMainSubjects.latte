@@ -1,0 +1,50 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Uživatelé, kteří mají práva pro náhled subjektu
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Název</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $Subjects as $subject}
+                                {include #table-row 'subject' => $subject}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a href="{plink Users:addSubject4User $User->id}">Uprav subjekty uživatele</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$subject->id}</td>
+        <td>{$subject->name}</td>
+        <td>
+            <a href="">odebrat</a>
+        </td>
+    </tr>
+{/define}

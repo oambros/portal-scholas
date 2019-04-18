@@ -1,0 +1,50 @@
+
+
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+
+	{include 'header.latte'}
+	<![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+	<!-- Navigatio-menu -->
+	{include 'main_menu.latte'}
+
+	<div id="page-wrapper">
+        {if isset($page_title)}
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">{$page_title}</h1>
+				</div>
+				<!-- /.col-lg-12 -->
+			</div>
+        {/if}
+
+        {foreach $flashes as $flash}
+			<div class="alert alert-{if $flash->type}{$flash->type}{else}success{/if} alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                {$flash->message}
+			</div>
+        {/foreach}
+		{block content /}
+	</div>
+	<!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+{include 'main_scripts.latte'}
+
+{block #scripts}{/block}
+
+</body>
+
+</html>

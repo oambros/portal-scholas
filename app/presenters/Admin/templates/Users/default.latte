@@ -1,0 +1,54 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Uživatelé
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Jméno</th>
+                                <th>Přijmení</th>
+                                <th>Email</th>
+                                <th>Aktivní</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $users as $user}
+                                {include #table-row 'user' => $user}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink Users:addUser}">Přidej uživatele</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$user->id}</td>
+        <td>{$user->f_name}</td>
+        <td>{$user->l_name}</td>
+        <td>{$user->email} {if $user->superadmin == 1}<i class="glyphicon glyphicon-king" title="Administrátor"></i> {/if}</td>
+        <td>{if $user->active == true}<i class="glyphicon glyphicon-apple" title="Aktivní"></i> {/if}</td>
+        <td><a href="{plink Users:userMainSubjects id => $user->id}">Subjekty uživatele</a> | <a href="{plink Users:editUser id => $user->id}">edit</a> | <a href="{plink deleteUser! id => $user->id}">delete</a> </td>
+    </tr>
+{/define}

@@ -1,0 +1,48 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Zaměstnanci {if isset($main_subject)} Subjektu {$main_subject->name} {/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>Jméno</th>
+                                <th>RČ</th>
+                                <th>Nástroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $employees as $employee}
+                                {include #table-row 'employee' => $employee}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$employee->f_name} {$employee->l_name}</td>
+        <td>{$employee->id_num}</td>
+        <td><a href="{plink Employee:showEmployee $employee->id}"><i class="fa ace-icon fa-info-circle green"></i></a></td>
+    </tr>
+{/define}

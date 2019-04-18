@@ -1,0 +1,26 @@
+{block content}
+    <div n:foreach="$flashes as $flash" n:class="alert, 'alert-' . $flash->type">{$flash->message}</div>
+    {form registerForm}
+        <div n:foreach="$form->getErrors() as $error" n:class="alert, 'alert-danger'">{$error}</div>
+
+        <div class="panel-body">
+
+            <fieldset>
+                <div class="form-group">
+                    {input email class => 'form-control', placeholder => 'E-mail'}
+                </div>
+                <div class="form-group">
+                    {input password class => 'form-control', placeholder => 'Heslo'}
+                </div>
+                <div class="form-group">
+                    {input password2 class => 'form-control', placeholder => 'Heslo znovu'}
+                </div>
+
+                {input send class => 'class="btn btn-lg btn-success btn-block"'}
+            </fieldset>
+
+
+        </div>
+    {/form}
+
+{/block}

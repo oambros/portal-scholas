@@ -1,0 +1,40 @@
+{block #user_menu}
+<li class="light-blue">
+    <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+        <img class="nav-user-photo" src="{$basePath}/assets/avatars/user.jpg" alt="{$UserData->f_name} {$UserData->l_name}" />
+        <span class="user-info">
+									<small>Dobrý den,</small>
+									{$UserData->f_name} {$UserData->l_name}
+								</span>
+
+        <i class="ace-icon fa fa-caret-down"></i>
+    </a>
+
+    <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+
+        {if $UserData->superadmin}
+            <li>
+                <a href="{plink Users:default}">
+                    <i class="ace-icon fa fa-cog"></i>
+                    Uživatelé
+                </a>
+            </li>
+        {/if}
+        <li>
+            <a href="{plink Users:editMyAccount}">
+                <i class="ace-icon fa fa-user"></i>
+                Můj profil
+            </a>
+        </li>
+
+        <li class="divider"></li>
+
+        <li>
+            <a href="{plink Homepage:logout}">
+                <i class="ace-icon fa fa-power-off"></i>
+                Odhlásit
+            </a>
+        </li>
+    </ul>
+</li>
+{/block}

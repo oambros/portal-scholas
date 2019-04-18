@@ -1,0 +1,34 @@
+{block}
+    {if !isset($extra_pay_type_id)}
+        {var $extra_pay_type_id = false}
+    {/if}
+
+    <ul class="nav nav-tabs">
+        {foreach $main_subject_extra_pay_type as $key => $type}
+            {include #menu-item 'type' => $type['data'], 'mset_id' => $month_set->id, 'extra_pay_type_id' => $extra_pay_type_id, 'count' => $type['count']}
+        {/foreach}
+
+        <li class="{if $extra_pay_type_id == false}active{/if}">
+            <a  href="{plink MonthSetExtraPaysUniversal:default $month_set->id}">
+                <i class="ace-icon fa fa-question pink bigger-120"></i>
+                Ostatní
+                {if count($month_set->extra_pays_universal)}
+                    <span class="badge badge-danger">{count($month_set->extra_pays_universal)}</span>
+                {/if}
+            </a>
+        </li>
+
+    </ul>
+{/block}
+
+{define #menu-item}
+    <li class="{if $extra_pay_type_id == $type->id}active{/if}">
+        <a  href="{plink MonthSetExtraPay:default $mset_id, $type->id }">
+            <i class="ace-icon fa {$type->icon_class} {$type->icon_color} bigger-120"></i>
+            {$type->name}
+            {if $count}
+                <span class="badge badge-danger">{$count}</span>
+            {/if}
+        </a>
+    </li>
+{/define}

@@ -1,0 +1,107 @@
+{block}
+        <div class="row">
+            <select class="form-control" id="category-filter">
+                <option value="0">Vše</option>
+                {foreach $text_categories as $category}
+                    <option value="{$category->id}">{$category->name}</option>
+                {/foreach}
+            </select>
+        </div>
+        <div class="row">
+
+            <!-- /.col-lg-6 -->
+            <div>
+                {snippet generator-table}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Seznam textů [{count($texts)}]
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>text</th>
+                                    <th>Nastroje</th>
+                                </tr>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $texts as $text}
+                                    {include #table-row 'text' => $text}
+                                {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+                {/snippet}
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label>První velké</label>
+                <label class="radio-inline">
+                    <input type="radio" name="first_uppercase" value="true" checked="">Ano
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="first_uppercase" value="false">Ne
+                </label>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Oddělovač textu</label>
+                <label class="radio-inline">
+                    <input type="radio" name="delimiter" value="," checked="">,
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="delimiter" value=".">.
+                </label>
+
+            </div>
+        </div>
+
+
+        {form templateForm}
+            <div class="row">
+                <div class="form-group">
+                    {input text class => 'form-control', id => generated-text}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    {input name class => 'form-control', placeholder => "Jméno předlohy", style => 'width: 200px;'}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    {input save class => 'btn btn-primary btn-lg btn-blockl'} {if $id}<a href="{plink TextGenerator:default}" type="button" class="btn btn-danger btn-lg">Zahodit a vytvořit nový</a>{/if}
+                </div>
+            </div>
+        {/form}
+
+
+
+    {/block}
+
+
+
+    {define #table-row}
+        <tr>
+            <td>{$text->id}</td>
+            <td>{$text->text}</td>
+            <td><a class="text-item" data-text="{$text->text}" data-id="{$text->id}" >použij</a></td>
+        </tr>
+    {/define}

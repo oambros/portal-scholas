@@ -1,0 +1,117 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Měsíční sety <strong>{$main_subject->name} {if $current_year} rok {$current_year} {/if}</strong>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p>
+                                    <a type="button" href="{plink MonthSet:default $main_subject->id}" class="btn btn-white btn-purple btn-sm {if $current_year == null}active{/if}">Vše</a>
+                                    {foreach $years as $year}
+                                        <a type="button" href="{plink this 'year' => $year}" class="btn btn-white btn-purple btn-sm {if $current_year == $year}active{/if} ">{$year}</a>
+                                    {/foreach}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Měsíc</th>
+                                        <th>Rok</th>
+                                        <th>Uzamčeno</th>
+                                        <th>Nástroje</th>
+                                    </tr>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {foreach $sets as $set}
+                                        {include #table-row 'set' => $set}
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <div class="row">
+
+    {if isset($main_subject_id)}
+        <a class="btn btn-info" href="{plink MonthSet:addMonthSet $main_subject_id }">Přidej měsíční set</a>
+    {/if}
+    </div>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$set->id}</td>
+        <td>{$set->month|czzechdate}</td>
+        <td>{$set->month|date: 'Y'}</td>
+        <td>
+            <a href="{plink SwitchLock! $set->id}" title="{if !$set->locked}odemčeno{else}uzamčeno{/if}" ><i class="ace-icon fa {if !$set->locked}fa-unlock green{else}fa-lock red{/if}"></i></a>
+        </td>
+        <td>
+            <a href="{plink MonthSetHollidays:default $set->id}">Dovolenky </a>  {*}<a href="{plink createHollidayCsv!}"> <i class="ace-icon fa fa-download blue"></i> </a>{*} {include #dropdown-button-hollidays 'set' => $set} | <a href="{plink MonthSetExtraPays:default $set->id}">Prémie [{count($set->extra_pays)}] </a> {include #dropdown-button-extra-pays 'main_subject' => $main_subject} <a href="{plink createHollidayCsv!}"> <i class="ace-icon fa fa-download blue"></i></a> | <a href="{plink DeleteMonthSet! $set->id}">delete</a>
+        </td>
+    </tr>
+{/define}
+
+
+{define #dropdown-button-extra-pays }
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-xs btn-primary btn-white dropdown-toggle" aria-expanded="false">
+            <i class="ace-icon fa fa-download blue"></i>
+            <span class="ace-icon fa fa-caret-down icon-on-right"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-inverse">
+            {foreach $main_subject->main_subject_extra_pay_type->ept as $ept}
+
+                <li>
+                    <a href="#">{$ept->name}</a>
+                </li>
+            {/foreach}
+
+        </ul>
+    </div>
+{/define}
+
+{define #dropdown-button-hollidays}
+    <div class="btn-group">
+        <button data-toggle="dropdown" class="btn btn-xs btn-primary btn-white dropdown-toggle" aria-expanded="false">
+            <i class="ace-icon fa fa-download blue"></i>
+            <span class="ace-icon fa fa-caret-down icon-on-right"></span>
+        </button>
+
+        <ul class="dropdown-menu dropdown-inverse">
+            <li>
+                <a href="{plink MonthSetHollidays:default $set->id}">Dovolenky <i class="ace-icon fa fa-download blue"></i></a>
+            </li>
+
+            <li>
+                <a href="{plink MonthSetStudyHollidays:default $set->id}">Studijní volno <i class="ace-icon fa fa-download blue"></i></a>
+            </li>
+
+        </ul>
+    </div>
+{/define}

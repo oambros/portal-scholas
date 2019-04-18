@@ -1,0 +1,400 @@
+{block content}
+    {if count($MonthSet->hollidays)}
+    <div class="row">
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Nepřítomnost {if !$MonthSet->locked}<a href="{plink MonthSetHollidays:default $MonthSet->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>Zaměstnanec</th>
+                                <th>Úvazek</th>
+                                <th>Od</th>
+                                <th>Do</th>
+                                <th>Typ</th>
+                                <th class="center">Poznámka</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $MonthSet->hollidays as $holliday}
+                                {include #table-row-holliday 'holliday' => $holliday}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    {/if}
+
+    {if count($MonthSet->study_hollidays)}
+    <div class="row">
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Studijní volno {if !$MonthSet->locked}<a href="{plink MonthSetStudyHollidays:default $MonthSet->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>Zaměstnanec</th>
+                                <th>Úvazek</th>
+                                <th>Od</th>
+                                <th>Do</th>
+                                <th class="center">Poznámka</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $MonthSet->study_hollidays as $holliday}
+                                {include #table-row-study-holliday 'holliday' => $holliday}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    {/if}
+
+
+    {if count($MonthSet->doctor_hollidays)}
+    <div class="row">
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Návštěva lékaře {if !$MonthSet->locked}<a href="{plink MonthSetDoctorHollidays:default $MonthSet->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <tr>
+                                    <th>Zaměstnanec</th>
+                                    <th>Úvazek</th>
+                                    <th>Počet hodin</th>
+                                    <th class="center">Poznámka</th>
+                                </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $MonthSet->doctor_hollidays as $holliday}
+                                {include #table-row-doctor-holliday 'holliday' => $holliday}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    {/if}
+
+    {foreach $MainSubjectExtraPayType->ept as $ept}
+        {if count($extra_pays[$ept->id])}
+        <div class="row">
+            <!-- /.col-lg-6 -->
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        {$ept->name} {if !$MonthSet->locked}<a href="{plink MonthSetExtraPay:default $MonthSet->id, $ept->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    {include #table-head-switcher 'extra_pay_type' => $ept}
+                                </thead>
+
+                                <tbody>
+                                    {include #table-row-switcher 'extra_pay_type' => $ept, 'extra_pays' => $extra_pays[$ept->id]}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+        {/if}
+    {/foreach}
+
+    {if count($extra_pays_universal)}
+        <div class="row">
+            <!-- /.col-lg-6 -->
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Ostatní odměny {if !$MonthSet->locked}<a href="{plink MonthSetExtraPaysUniversal:default $MonthSet->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    {include #table-head-both}
+                                </thead>
+
+                                <tbody>
+                                    {foreach $extra_pays_universal as $pay}
+                                        {include #table-row-both 'pay' => $pay}
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+
+    {/if}
+    {*}<div class="row">
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Prémie {if !$MonthSet->locked}<a href="{plink MonthSet:MonthSetExtraPays $MonthSet->id}"><i class="fa ace-icon fa-edit blue"></i></a>{/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+
+                                <th>Zaměstnanec</th>
+                                <th>Úvazek</th>
+                                <th>Částka</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $MonthSet->extra_pays as $pay}
+                                {include #table-row-extra-pays 'pay' => $pay}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>*}
+
+    <div class="row">
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Poznámka
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    {control monthSetNoteForm}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+
+        {if $MonthSet->locked}
+            <a href="#" class="btn btn-warning disabled">Uzamčen</a>
+        {else}
+            <a href="{plink LockMonthSet! $MonthSet->id}" class="btn btn-warning">Uzamčít</a>
+        {/if}
+
+    </div>
+{/block}
+
+{define #table-row-holliday}
+    <tr>
+        <td>{$holliday->employee->getF_name()} {$holliday->employee->getL_name()}</td>
+        <td>{if $holliday->commitment == null}-{else}{$holliday->commitment->name}{/if}</td>
+        <td>{$holliday->start|date:'d. m. Y'} {if $holliday->half_day_start}<i class="fa fa-star green"></i>{/if}</td>
+        <td>{$holliday->stop|date:'d. m. Y'} {if $holliday->half_day_stop}<i class="fa fa-star green"></i>{/if}</td>
+        <td>{$holliday->type|commitment}</td>
+        <td class="center">{if $holliday->note}<i class="fa ace-icon fa-comment-o" title="{$holliday->note}}"></i>{else} - {/if}</td>
+    </tr>
+{/define}
+
+{define #table-row-study-holliday}
+    <tr>
+        <td>{$holliday->employee->getF_name()} {$holliday->employee->getL_name()}</td>
+        <td>{if $holliday->commitment == null}-{else}{$holliday->commitment->name}{/if}</td>
+        <td>{$holliday->date_from|date:'d. m. Y'} {if $holliday->from_halfday}<i class="fa fa-star green"></i>{/if}</td>
+        <td>{$holliday->date_to|date:'d. m. Y'} {if $holliday->to_halfday}<i class="fa fa-star green"></i>{/if}</td>
+        <td class="center">{if $holliday->note}<i class="fa ace-icon fa-comment-o" title="{$holliday->note}}"></i>{else} - {/if}</td>
+    </tr>
+{/define}
+
+{define #table-row-doctor-holliday}
+    <tr>
+        <td>{$holliday->employee->getF_name()} {$holliday->employee->getL_name()}</td>
+        <td>{if $holliday->commitment == null}-{else}{$holliday->commitment->name}{/if}</td>
+        <td>{$holliday->hours}</td>
+        <td class="center">{if $holliday->note}<i class="fa ace-icon fa-comment-o" title="{$holliday->note}}"></i>{else} - {/if}</td>
+    </tr>
+{/define}
+
+{define #table-row-extra-pays-universal}
+    <tr>
+        <td>{$pay->getEmployee()->getF_name()} {$pay->getEmployee()->getL_name()}</td>
+        <td>{$pay->getCommitment()->getName()}</td>
+        <td>{$pay->amount}</td>
+        <td class="center">{if $pay->note}<i class="fa ace-icon fa-comment-o" title="{$pay->note}}"></i>{else} - {/if}</td>
+    </tr>
+{/define}
+
+{define #table-head-switcher}
+    {if $extra_pay_type->getBase_type() == 1}
+        {include #table-head-hours}
+    {/if}
+
+    {if $extra_pay_type->getBase_type() == 2}
+        {include #table-head-amount}
+    {/if}
+
+    {if $extra_pay_type->getBase_type() == 3}
+        {include #table-head-both}
+    {/if}
+{/define}
+
+{define #table-row-switcher}
+    {if $extra_pay_type->getBase_type() == 1}
+        {foreach $extra_pays as $pay}
+            {include #table-row-hours 'pay' => $pay}
+        {/foreach}
+
+    {/if}
+
+    {if $extra_pay_type->getBase_type() == 2}
+
+        {foreach $extra_pays as $pay}
+            {include #table-row-amount 'pay' => $pay}
+        {/foreach}
+
+    {/if}
+
+    {if $extra_pay_type->getBase_type() == 3}
+        {foreach $extra_pays as $pay}
+            {include #table-row-both 'pay' => $pay}
+        {/foreach}
+
+    {/if}
+{/define}
+
+
+{define #table-head-hours}
+    <tr>
+        <th>Zaměstnanec</th>
+        <th>Úvazek</th>
+        <th>Zdroj financování</th>
+        <th>Hodiny</th>
+    </tr>
+{/define}
+
+{define #table-row-hours}
+    <tr>
+        <td>{$pay->employee->getF_name()} {$pay->employee->getL_name()}</td>
+        <td>{if $pay->commitment == null}-{else}{$pay->commitment->name}{/if}</td>
+        <td>{if $pay->financing} {$pay->financing->name} {else} <span class="red">neurčeno</span> {/if}</td>
+        <td>{$pay->hours}</td>
+    </tr>
+    {if $pay->note}
+        <tr>
+            <td colspan="4"> <i class="fa ace-icon fa-comment-o blue -pulse" ></i>  <i> {$pay->note} </i></td>
+        </tr>
+    {/if}
+{/define}
+
+
+{define #table-head-amount}
+    <tr>
+        <th>Zaměstnanec</th>
+        <th>Úvazek</th>
+        <th>Zdroj financování</th>
+        <th>Částka</th>
+    </tr>
+{/define}
+
+
+{define #table-row-amount}
+    <tr>
+        <td>{$pay->employee->getF_name()} {$pay->employee->getL_name()}</td>
+        <td>{if $pay->commitment == null}-{else}{$pay->commitment->name}{/if}</td>
+        <td>{if $pay->financing} {$pay->financing->name} {else} <span class="red">neurčeno</span> {/if}</td>
+        <td>{$pay->amount}</td>
+    </tr>
+    {if $pay->note}
+        <tr>
+            <td colspan="4"> <i class="fa ace-icon fa-comment-o blue -pulse" ></i>  <i> {$pay->note} </i></td>
+        </tr>
+    {/if}
+{/define}
+
+{define #table-head-both}
+    <tr>
+        <th>Zaměstnanec</th>
+        <th>Úvazek</th>
+        <th>Zdroj financování</th>
+        <th>Hodiny</th>
+        <th>Částka</th>
+    </tr>
+{/define}
+
+{define #table-row-both}
+    <tr>
+        <td>{$pay->employee->getF_name()} {$pay->employee->getL_name()}</td>
+        <td>{if $pay->commitment == null}-{else}{$pay->commitment->name}{/if}</td>
+        <td>{if $pay->financing} {$pay->financing->name} {else} <span class="red">neurčeno</span>  {/if}</td>
+        <td>{$pay->hours}</td>
+        <td>{$pay->amount}</td>
+    </tr>
+    {if $pay->note}
+        <tr>
+            <td colspan="5"> <i class="fa ace-icon fa-comment-o blue -pulse" ></i>  <i> {$pay->note} </i></td>
+        </tr>
+    {/if}
+{/define}

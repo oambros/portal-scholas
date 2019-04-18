@@ -1,0 +1,24 @@
+{block}
+    <!--[if !IE]> -->
+    <script src="{$basePath}/assets/js/jquery.2.1.1.min.js"></script>
+
+    <script src="{$basePath}/assets/js/nette.ajax.js"></script>
+
+    <!-- <![endif]-->
+
+    <!--[if IE]>
+    <script src="{$basePath}/assets/js/jquery.1.11.1.min.js"></script>
+
+    <![endif]-->
+
+    <script type="text/javascript">
+        if('ontouchstart' in document.documentElement) document.write("<script src='"+ {$basePath} +"/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+    </script>
+    <script src="{$basePath}/assets/js/bootstrap.min.js"></script>
+
+    <!-- page specific plugin scripts -->
+
+    <!-- ace scripts -->
+    <script src="{$basePath}/assets/js/ace-elements.min.js"></script>
+    <script src="{$basePath}/assets/js/ace.min.js"></script>
+{/block}

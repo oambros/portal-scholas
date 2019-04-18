@@ -1,0 +1,131 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# http://nette.org/security-warning
+#
+parameters:
+
+
+php:
+	date.timezone: Europe/Prague
+
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\*Module\Presenters\*Presenter
+
+
+session:
+	expiration: 14 days
+
+
+services:
+	authenticator: App\Model\UserManager
+	nette.latteFactory:
+		setup:
+			- addFilter(commitment, [App\Component\Helpers\CommitmentFilter, filter])
+			- addFilter(czzechdate, [App\Component\Helpers\MonthSetFilter, filter])
+	- App\FrontModule\Forms\FrontSignFormFactory
+	- App\AdminModule\Forms\AdminSignFormFactory
+	- App\AdminModule\Forms\RegisterFormFactory
+	- App\Component\Users\Forms\IUsersFormFactory
+	- App\Component\Manufacturer\Form\IManufacturerFormFactory
+	- App\Component\Shop\Form\IShopFormFactory
+	- App\Component\ItemTypes\Form\IItemTypeFormFactory
+	- App\Component\Inventory\Form\IInventoryItemFormFactory
+	- App\Component\Invoices\Form\IInvoiceFormFactory
+	- App\Component\Gdpr\Form\IGdprSubjectTypeFormFactory
+	- App\Component\Gdpr\Form\IGdprSubjectFormFactory
+	- App\Component\Gdpr\Form\IGdprOouTypeFormFactory
+	- App\Component\Texts\Form\ITextCategoryFormFactory
+	- App\Component\Texts\Form\ITextFormFactory
+	- App\Component\Texts\Generator\ITextGeneratorFactory
+	- App\Component\Gdpr\Form\IGdprTeamFormFactory
+	- App\Component\Gdpr\Form\IClientTypeFormFactory
+	- App\Component\Accounter\Form\IMainSubjectFormFactory
+	- App\Component\Accounter\Form\ICommitmentFormFactory
+	- App\Component\Section\Forms\ISectionFormFactory
+	- App\Component\Accounter\Form\IEmployeeFormFactory
+	- App\Component\Accounter\Form\IMonthSetFormFactory
+	- App\Component\Accounter\Form\IMonthSetHollidayFormFactory
+	- App\Component\Accounter\Form\IClientUserFormFactory
+	- App\Component\Accounter\Form\ISubject4UserFormFactory
+	- App\Component\Accounter\Form\IExtraPayFormFactory
+	- App\Component\Accounter\Form\IMonthSetNoteFormFactory
+	- App\Component\Accounter\Form\IMonthSetDoctorHollidayFormFactory
+	- App\Component\Accounter\Form\IMonthSetStudyHollidayFormFactory
+	- App\Component\Accounter\Form\IExtraPayUniversalFormFactory
+	- App\Component\Contractor\IContractorPdfResponseFactory
+	- App\Component\Accounter\Form\ICsvUploadFactory
+	- App\Component\Accounter\Form\IExtraPayTypeFormFactory
+	- App\Component\Accounter\Form\IMainSubjectExtraPayTypeFormFactory
+	- App\Component\Accounter\Form\IFinancingFormFactory
+
+	#models
+	- App\Model\UsersModel
+	- App\Model\ManufacturerModel
+	- App\Model\ShopModel
+	- App\Model\ItemTypesModel
+	- App\Model\InventoryItemsModel
+	- App\Model\InvoiceModel
+	- App\Model\GdprSubjectModel
+	- App\Model\GdprSubjectTypeModel
+	- App\Model\GdprOouTypeModel
+	- App\Model\TextCategoriesModel
+	- App\Model\TextsModel
+	- App\Model\TextTemplatesModel
+	- App\Model\PageTextModel
+	- App\Model\GdprTeamsModel
+	- App\Model\ClientTypeModel
+	- App\Model\MainSubjectModel
+	- App\Model\EmployeeModel
+	- App\Model\CommitmentModel
+	- App\Model\ExtraPayModel
+	- App\Model\PayMonthModel
+	- App\Model\SectionAllowedModel
+	- App\Model\MonthSetModel
+	- App\Model\MonthSetHollidayModel
+	- App\Model\MonthSetBonusModel
+	- App\Model\ClientUserModel
+	- App\Model\LogModel
+	- App\Model\MonthSetStudyHollidayModel
+	- App\Model\MonthSetDoctorHolidayModel
+	- App\Model\ExtraPayUniversalModel
+	- App\Model\ExtraPayTypeModel
+	- App\Model\MainSubjectExtraPayTypeModel
+	- App\Model\FinancingModel
+
+	router: App\RouterFactory::createRouter
+
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+	events: Kdyby\Events\DI\EventsExtension
+	annotations: Kdyby\Annotations\DI\AnnotationsExtension
+	doctrine: Kdyby\Doctrine\DI\OrmExtension
+
+events:
+	subscribers:
+		- App\Listeners\MonthSetListener
+		- App\Listeners\NotificationListener
+
+#doctrine:
+#	host: 'md10.wedos.net'
+#	driver: pdo_mysql
+#	user: a184417_sportal
+#	password: ScholaGuard1!
+#	dbname: d184417_sportal
+#	logging: true
+#	debugger: false
+#	metadata:
+#		App: %appDir%
+
+doctrine:
+	host: 127.0.0.1
+	driver: pdo_mysql
+	user: root
+	password:
+	dbname: scholaportal
+	logging: true
+	debugger: false
+	metadata:
+		App: %appDir%

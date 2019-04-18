@@ -1,0 +1,57 @@
+{block content}
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Seznam teamu
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Jméno</th>
+                                <th>Členové teamu</th>
+                                <th>Počet auditů</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $teams as $team}
+                                {include #table-row 'team' => $team}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink GdprTeams:addTeam}">Přidej team</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$team->id}</td>
+        <td>{$team->name}</td>
+        <td>{include #assoc-users 'users' => $team->users}</td>
+        <td>{count($team->gdpr_subjects)}</td>
+        <td><a href="{plink GdprTeams:editTeam id => $team->id}">Upravits</a> | <a href="{*plink deleteType! id => $type->id*}">delete</a> | <a href="{plink GdprMap:teamMap $team->id}">Mapa</a> </td>
+    </tr>
+{/define}
+
+{define #assoc-users}
+    {foreach $users as $user}
+        {$user->f_name[0]}. {$user->l_name},
+    {/foreach}
+{/define}

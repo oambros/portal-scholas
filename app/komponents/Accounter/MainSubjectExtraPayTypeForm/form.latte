@@ -1,0 +1,93 @@
+{block}
+
+    {snippet extra-pay-form}
+        <div class="row">
+            <div class="col-xs-12 form-group">
+                {form form class => 'form-horizontal'}
+
+                    {if $form->hasErrors()}
+                        {foreach $form->errors as $error}
+                            <div class="alert alert-danger">
+                                <strong>Chyba: </strong>{$error}
+                            </div>
+                        {/foreach}
+                    {/if}
+
+                    {foreach $form->getControls() as $control}
+                        <div class="input-group">
+                            {if $control->name == 'ept'}
+
+                                {include switch 'control' => $control}
+
+                            {else}
+                                {input $control 'placeholder' => $control->caption}
+                            {/if}
+
+                        </div>
+                    {/foreach}
+                {/form}
+            </div>
+        </div>
+       {*} <div class="row">
+            <div class="col-xs-3">
+                <label>
+                    <input name="switch-field-1" class="ace ace-switch" type="checkbox">
+                    <span class="lbl"></span>
+                </label>
+            </div>
+
+            <div class="col-xs-3">
+                <label>
+                    <input name="switch-field-1" class="ace ace-switch ace-switch-2" type="checkbox">
+                    <span class="lbl"></span>
+                </label>
+            </div>
+
+            <div class="col-xs-3">
+                <label>
+                    <input name="switch-field-1" class="ace ace-switch ace-switch-3" type="checkbox">
+                    <span class="lbl"></span>
+                </label>
+            </div>
+
+            <div class="col-xs-3">
+                <label>
+                    <input name="switch-field-1" class="ace ace-switch" type="checkbox">
+                    <span class="lbl" data-lbl="CUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOM"></span>
+                </label>
+            </div>
+        </div>*}
+    {/snippet}
+
+    {define switch}
+
+        {foreach $control->getItems() as $key => $item}
+
+        {var $checked = ''}
+        {foreach $control->getRawValue() as $value}
+            {if $value == $key}
+                {var $checked = 'checked="checked"'}
+            {/if}
+        {/foreach}
+
+        <div class="row">
+
+                        <label class="pull-right inline">
+                            <small class="muted smaller-90">{$item}:</small>
+
+                            <input name="{$control->getHtmlName()}" {$checked|noescape} type="checkbox" class="ace ace-switch ace-switch-5" value="{$key}">
+                            <span class="lbl middle" data-lbl="Ano&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ne"></span>
+                        </label>
+
+                            {*}<label>
+                                <input name="{$control->getHtmlName()}" class="ace ace-switch" type="checkbox" {$checked} value="{$key}">
+                                <span class="lbl active" data-lbl="Ano&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ne"></span>
+                            </label>*}
+
+        </div>
+        {/foreach}
+
+    {/define}
+{/block}
+
+

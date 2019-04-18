@@ -1,0 +1,75 @@
+{block content}
+
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Texty stránek
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Titulek</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $pageTexts as $text}
+                                {include #table-row 'text' => $text}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$text->id}</td>
+        <td>
+            <div class="">
+                <input type="text" class="page-text-edit form-control" data-key="{$text->id}" value="{$text->title}"/><span id="span-{$text->id}"></span>
+            </div>
+        </td>
+        <td>{*}<a href="{plink TextCategories:editTextCategory id => $category->id}">edit</a> | <a href="{plink deleteTextCategory! id => $category->id}">delete</a>*} </td>
+    </tr>
+{/define}
+
+{block #scripts}
+    <script>
+        $(document).on('change', '.page-text-edit', function (e) {
+            e.preventDefault();
+            var id = $(this).data('key');
+            var value = $(this).val();
+            $.ajax({
+                url: {link ChangeTitleText!},
+                data: { id: id, title: value},
+                dataType: "json",
+                type: "POST",
+                beforeSend: function() {
+                    $('#span-'+id).html('<i class="ace-icon fa fa-spinner fa-spin blue bigger-300"></i>');
+                },
+                success: function( ) {
+                    //$('#span-'+id).html('');
+                    $('input[data-key="'+id+'"]').parent().addClass('has-success');
+                }
+            });
+        });
+    </script>
+{/block}

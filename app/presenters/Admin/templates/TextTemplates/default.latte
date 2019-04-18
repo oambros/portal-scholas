@@ -1,0 +1,47 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Předlohy
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Jméno</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $teplates as $temp}
+                                {include #table-row 'temp' => $temp}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$temp->id}</td>
+        <td>{$temp->name}</td>
+        <td><a href="{link deleteTemplate! $temp->id}">delete</a> | <a href="{link TextGenerator:default $temp->id}">upravit v generatoru</a> </td>
+    </tr>
+{/define}

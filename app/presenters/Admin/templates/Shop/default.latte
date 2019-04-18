@@ -1,0 +1,50 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Obchody
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Jméno</th>
+                                <th>URL</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $shops as $shop}
+                                {include #table-row 'shop' => $shop}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink Shop:addShop}">Přidej obchod</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$shop->id}</td>
+        <td>{$shop->name}</td>
+        <td>{$shop->url}</td>
+        <td><a href="{plink Shop:editShop id => $shop->id}">Upravit</a> | <a href="{plink deleteShop! id => $shop->id}">delete</a> </td>
+    </tr>
+{/define}

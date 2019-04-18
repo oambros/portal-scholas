@@ -1,0 +1,52 @@
+{block content}
+ <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Seznam subjektů [{count($subjects)}]
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+
+                                <th>Jméno</th>
+                                <th>Typ</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $subjects as $subject}
+                                {include #table-row 'subject' => $subject}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink GdprSubject:addSubject}">Přidej subjekt</a>
+{/block}
+
+{define #table-row}
+    <tr {if $subject->sign}style="background-color: #92D08B"{/if} >
+        <td>{$subject->id}</td>
+        <td>{$subject->name}</td>
+        <td>{if isset($subject->gdpr_subject_type->name)}{$subject->gdpr_subject_type->name}{else}-{/if}</td>
+        <td><a href="{plink GdprSubject:editSubject id => $subject->id}">Upravit</a> | <a href="{plink deleteSubject! id => $subject->id}">delete</a> | <a href="{plink GdprMap:default subject => $subject->id}">Mapa</a> </td>
+    </tr>
+{/define}
+
+

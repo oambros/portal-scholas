@@ -1,0 +1,33 @@
+{block}
+    <div class="row">
+        <div class="col-lg-6">
+            {if isset($invoice) && $invoice->file}
+                <a href="{link download!}">soubor faktury</a> | <a href="{link deleteFile!}">X</a>
+            {/if}
+            {form form}
+                {foreach $form->getComponents() as $component}
+                    {if $component->getControl()->type == 'submit'}
+                        {include controlSubmit 'control' => $component}
+                    {else}
+                        {include Control 'control' => $component}
+                    {/if}
+                {/foreach}
+            {/form}
+        </div>
+    </div>
+    {*control form*}
+{/block}
+
+{define Control}
+    <div class="form-group">
+        {label $control/}
+        {input $control class => 'form-control'}
+    </div>
+{/define}
+
+{define controlSubmit}
+    <div class="form-group">
+        {label $control/}
+        {input $control class => 'btn btn-primary'}
+    </div>
+{/define}

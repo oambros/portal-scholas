@@ -1,0 +1,26 @@
+{block}
+    {if isset($employee)}<p> Zaměstnanec {$employee->f_name} {$employee->l_name} </p>{/if}
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {form form class => 'form-horizontal'}
+
+                {if $form->hasErrors()}
+                    {foreach $form->errors as $error}
+                        <div class="alert alert-danger">
+                            <strong>Chyba: </strong>{$error}
+                        </div>
+                    {/foreach}
+                {/if}
+
+                {foreach $form->getControls() as $control}
+                    <div class="input-group">
+
+                        {input $control}
+                        {$control->caption}
+
+                    </div>
+                {/foreach}
+            {/form}
+        </div>
+    </div>
+{/block}

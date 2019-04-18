@@ -1,0 +1,77 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Logy školy <strong> {$main_subject->name} {$count_logs}</strong>
+                    <form action="{plink Log:default}" class="form-search">
+                        <input type="hidden" name="main_subject_id" value="{$main_subject->id}">
+                        <div>
+                            <div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="ace-icon fa fa-check"></i>
+																	</span>
+
+                                <input type="text" name="search_name" class="form-control search-query" placeholder="Hledej podle jmena uživatele">
+                                <span class="input-group-btn">
+                                        <input type="submit" value="Hledej" class="btn btn-purple btn-sm"  >
+
+                                    </span>
+                            </div>
+                            <br>
+
+                            <div class="input-group">
+																	<span class="input-group-addon">
+																		<i class="ace-icon fa fa-check"></i>
+																	</span>
+
+                                <input type="text" name="search_action" class="form-control search-query" placeholder="Hledej podle logu">
+                                <span class="input-group-btn">
+                                        <input type="submit" value="Hledej" class="btn btn-purple btn-sm"  >
+
+                                    </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+
+                                <th>Log</th>
+                                <th>Uživatel</th>
+                                <th>Datum</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $logs as $log}
+                                {include #table-row 'log' => $log}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$log->type}</td>
+        <td>{$log->user}</td>
+        <td>{$log->create_date|date:'d.m.Y h:i'}</td>
+    </tr>
+{/define}

@@ -1,0 +1,66 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Měsíční sety
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p>
+                                    <a type="button" href="{plink MonthSet:default $main_subject->id}" class="btn btn-white btn-purple btn-sm {if $current_year == null}active{/if}">Vše</a>
+                                    {foreach $years as $year}
+                                        <a type="button" href="{plink this 'year' => $year}" class="btn btn-white btn-purple btn-sm {if $current_year == $year}active{/if} ">{$year}</a>
+                                    {/foreach}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                    <tr>
+                                        <th>Měsíc</th>
+                                        <th>Rok</th>
+                                        <th>Poznámka</th>
+                                        <th class="align-right">Nástroje</th>
+                                    </tr>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {foreach $sets as $set}
+                                        {include #table-row 'set' => $set}
+                                    {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+
+    <a href="{plink MonthSet:addMonthSet }" class="btn btn-info">Přidej měsíční sadu</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$set->month|czzechdate}</td>
+        <td>{$set->month|date:'Y'}</td>
+        <td>{if $set->note}<i class="fa ace-icon fa-comment-o purple" title="{$set->note}"></i>{else} - {/if}</td>
+        <td class="align-right">{if $set->locked} <a href="{plink lockMonthSet $set->id}"><i class="fa ace-icon fa-search blue"></i> </a> | <i title="uzamčeno" class="fa ace-icon bigger-110 fa-lock red"></i> {else}<a href="{plink MonthSetHollidays:default $set->id}">Nepřitomnost [{count($set->hollidays)}]</a> | <a href="{plink MonthSetExtraPay:default $set->id}">Odměny </a> |  <a href="{plink MonthSet:setNote $set->id}"><i class="fa ace-icon fa-comment-o" title="Vložit poznámku "></i></a> | <a href="{plink lockMonthSet $set->id}"><i title="Uzamčít a odeslat" class="fa ace-icon fa-unlock green"></i> </a> | <a href="{plink DeleteMonthSet! $set->id}"><i class="fa ace-icon fa-close red" title="smazat"></i> </a>{/if} </td>
+        {*}<td>{if $set->locked} <i title="uzamčeno" class="fa ace-icon bigger-110 fa-lock red"></i> {else}<a href="{plink MonthSet:editMonthSet $set->id}">edit</a> | <a href="{plink DeleteMonthSet! $set->id}">delete</a> {/if}</td>*}
+    </tr>
+{/define}

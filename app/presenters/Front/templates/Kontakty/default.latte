@@ -1,0 +1,80 @@
+{block content}
+    <div class="col-xs-12">
+        <h3 class="header smaller lighter green">Kontakty</h3>
+        {foreach $Users as $user}
+            {include #table 'user' => $user}
+            <br>
+        {/foreach}
+    </div>
+{/block}
+
+{define #table}
+    <div class="row">
+        <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Jméno </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="username">{$user->f_name}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Přijmení </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="username">{$user->l_name}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Telefon </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{$user->phone}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Email </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{$user->email}</span>
+                </div>
+            </div>
+
+            {*}<div class="profile-info-row">
+                <div class="profile-info-name"> Věk </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="age">38</span>
+                </div>
+            </div>*}
+
+            {*}<div class="profile-info-row">
+                <div class="profile-info-name"> Joined </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="signup">2010/06/20</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Last Online </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="login">3 hours ago</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> About Me </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="about">Editable as WYSIWYG</span>
+                </div>
+            </div>
+            *}
+        </div>
+    </div>
+{/define}

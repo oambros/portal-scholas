@@ -1,0 +1,49 @@
+{control form}
+
+{block content}
+    {if $items != null}
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    CSV
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                {foreach $header as $head}
+                                    <th>{$head}</th>
+                                {/foreach}
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $items as $row}
+                                {include #table-row 'row' => $row}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    {/if}
+{/block}
+
+{define #table-row}
+    <tr>
+        {foreach $row as $item}
+            <td>{$item}</td>
+        {/foreach}
+    </tr>
+{/define}

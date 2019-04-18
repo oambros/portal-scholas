@@ -1,0 +1,183 @@
+{block content}
+
+    {control extraPayForm}
+
+    <div class="row">
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Dovolenky {$month_set->month|date:'d. m. Y'}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+
+                                <th>#</th>
+                                <th>Zaměstnanec</th>
+                                <th>Činnost</th>
+                                <th>Zdroj financování</th>
+                                <th>Částka</th>
+                                <th>Nástroje</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $extra_pays as $pay}
+                                {include #table-row 'pay' => $pay}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$pay->id}</td>
+        <td>{$pay->getEmployee()->getF_name()}</td>
+        <td>{$pay->getCommitment()->getName()}</td>
+        <td>{if isset($pay->financing)} {$pay->getFinancing()->getName()} {else} neurčeno {/if}</td>
+        <td>{$pay->amount}</td>
+        <td><a href="{plink deleteExtraPay! $pay->id}">delete</a> </td>
+    </tr>
+    {if $pay->note}
+    <tr>
+        <td colspan="6"><i class="fa ace-icon fa-comment-o blue -pulse" ></i> {$pay->note} </td>
+    </tr>
+    {/if}
+{/define}
+
+{block #scripts}
+    <script>
+
+        function checkFormStatus() {
+
+            var employeeSelect = $('.extra-pay-form-employee-select').val();
+            var commitmentSelect = $('.commitment-select option').length;
+
+            console.log(commitmentSelect);
+            if( employeeSelect == 0 || commitmentSelect < 2 ) {
+                $('#form-name').prop('disabled', true);
+                $('#form-amount').prop('disabled', true);
+                $('#form-note').prop('disabled', true);
+                $('.submit').prop('disabled', true);
+
+                if(commitmentSelect < 2)
+                    $('.commitment-select').prop('disabled', true);
+
+
+
+            }
+            else {
+                if( $('.commitment-select').val() == 0 ) {
+                    $('#form-name').prop('disabled', true);
+                    $('#form-amount').prop('disabled', true);
+                    $('#form-note').prop('disabled', true);
+                    $('.submit').prop('disabled', true);
+                }
+                else {
+                    $('#form-name').prop('disabled', false);
+                    $('#form-amount').prop('disabled', false);
+                    $('#form-note').prop('disabled', false);
+                    $('.submit').prop('disabled', false);
+                }
+                $('.commitment-select').prop('disabled', false);
+            }
+        }
+
+        $( document ).ready(function(){
+            checkFormStatus();
+            $('.extra-pay-form-employee-select').chosen();
+            $('.chosen-select').chosen();
+
+        });
+
+        $(document).ajaxComplete(function() {
+            checkFormStatus();
+            $('.extra-pay-form-employee-select').chosen();
+            $('.chosen-select').chosen();
+        });
+
+        $(document).on('change', '.extra-pay-form-employee-select', function(e){
+
+            $.nette.ajax({
+                type: "GET",
+                url: {link extraPayForm:setEmployee!},
+                data: {
+                    'extraPayForm-id': $(this).val()
+                },
+                success: function(){
+                    checkFormStatus();
+                }
+            });
+
+        });
+
+        $(document).on('change', '.commitment-select', function(e){
+
+            $.nette.ajax({
+                type: "GET",
+                url: {link extraPayForm:setCommitment!},
+                data: {
+                    'monthSetExtraPaysForm-id': $(this).val()
+                },
+                success: function(){
+                    checkFormStatus();
+                }
+            });
+            $('#commitment-id').val($(this).val());
+        });
+
+
+        $(document).on('click', '.extrapay-regular', function(e){
+
+            e.preventDefault();
+            var id = $(this).attr('data-extra-pay-id');
+
+            $.nette.ajax({
+                type: "GET",
+                url: {link getExtraPayNote!},
+                data: {
+                    'id': id
+                },
+                success: function(payload){
+
+                    showBoxNote(payload.Note);
+                }
+            });
+
+
+        });
+
+        function showBoxNote( message ) {
+
+            bootbox.dialog({
+                message: "<span class='bigger-110'>"+ message +"</span>",
+                buttons:{
+                    cancel: {
+                        label: "Zavřít",
+                        className: "btn-warning",
+                    },
+
+
+
+                }
+
+            });
+
+        }
+
+    </script>
+{/block}

@@ -1,0 +1,48 @@
+    {block content}
+
+        <div class="row">
+
+            <!-- /.col-lg-6 -->
+            <div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Výrobci
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Jméno</th>
+                                    <th>Nastroje</th>
+                                </tr>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {foreach $manufacturers as $manufacturer}
+                                    {include #table-row 'manufacturer' => $manufacturer}
+                                {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-6 -->
+        </div>
+        <a class="btn btn-info" href="{plink Manufacturer:addManufacturer}">Přidej výrobce</a>
+    {/block}
+
+    {define #table-row}
+        <tr>
+            <td>{$manufacturer->id}</td>
+            <td>{$manufacturer->name}</td>
+            <td><a href="{plink Manufacturer:editManufacturer id => $manufacturer->id}">Upravit</a> | <a href="{plink deleteManufacturer! id => $manufacturer->id}">delete</a> </td>
+        </tr>
+    {/define}

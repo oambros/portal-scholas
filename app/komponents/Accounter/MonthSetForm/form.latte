@@ -1,0 +1,25 @@
+{block}
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {form form class => 'form-horizontal'}
+
+                {if $form->hasErrors()}
+                    {foreach $form->errors as $error}
+                        <div class="alert alert-danger">
+                            <strong>Chyba: </strong>{$error}
+                        </div>
+                    {/foreach}
+                {/if}
+
+                {foreach $form->getControls() as $control}
+                    <div class="input-group">
+
+                        {input $control 'placeholder' => $control->caption}
+
+                    </div>
+                    <br>
+                {/foreach}
+            {/form}
+        </div>
+    </div>
+{/block}

@@ -1,0 +1,25 @@
+{block}
+
+    <ul class="nav nav-tabs">
+        <li class="{if $action_name == 'Admin:MonthSetHollidays:default'}active{/if}">
+            <a  href="{plink MonthSetHollidays:default $month_set->id}">
+                <i class="green ace-icon fa fa-home bigger-120"></i>
+                Dovolená
+                {if count($month_set->hollidays)}
+                    <span class="badge badge-danger">{count($month_set->hollidays)}</span>
+                {/if}
+            </a>
+        </li>
+
+        <li class="{if $action_name == 'Admin:MonthSetStudyHollidays:default'}active{/if}">
+            <a  href="{plink MonthSetStudyHollidays:default $month_set->id}" >
+                <i class="blue ace-icon fa fa-graduation-cap bigger-120"></i>
+                Studijní volno
+                {if count($month_set->study_hollidays)}
+                    <span class="badge badge-danger">{count($month_set->study_hollidays)}</span>
+                {/if}
+            </a>
+        </li>
+
+    </ul>
+{/block}

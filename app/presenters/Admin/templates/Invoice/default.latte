@@ -1,0 +1,48 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Seznam faktur
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Číslo</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $invoices as $invoice}
+                                {include #table-row 'invoice' => $invoice}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink Invoice:addInvoice}">Přidej fakturu</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$invoice->id}</td>
+        <td>{$invoice->number}</td>
+        <td><a href="{plink Invoice:editInvoice id => $invoice->id}">Upravit</a> | <a href="{plink deleteInvoice! id => $invoice->id}">delete</a> </td>
+    </tr>
+{/define}

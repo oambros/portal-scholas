@@ -1,0 +1,58 @@
+{block}
+    <div class="row">
+        <div class="col-lg-6">
+            {form form}
+                {foreach $form->getComponents() as $component}
+
+                    {if $component->getControl()->type == 'submit'}
+                        {include controlSubmit 'control' => $component}
+                    {else}
+                        {include Control 'control' => $component}
+                    {/if}
+                {/foreach}
+            {/form}
+        </div>
+    </div>
+    {*control form*}
+{/block}
+
+{define Control}
+    <div class="form-group">
+        {label $control/}
+        {input $control class => 'form-control'}
+    </div>
+{/define}
+
+{define controlSubmit}
+    <div class="form-group">
+        {label $control/}
+        {input $control class => 'btn btn-primary'}
+    </div>
+{/define}
+
+{block scripts}
+    <script type="text/javascript">
+
+        var placeSearch, autocomplete;
+        var componentForm = {
+            street_number: 'short_name',
+            route: 'long_name',
+            locality: 'long_name',
+            administrative_area_level_1: 'short_name',
+            country: 'long_name',
+            postal_code: 'short_name'
+        };
+
+        function initAutocomplete() {
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            autocomplete = new google.maps.places.Autocomplete(
+            /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+            { types: ['geocode'] });
+
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+        }
+    </script>
+{/block}

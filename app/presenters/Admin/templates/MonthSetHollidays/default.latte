@@ -1,0 +1,219 @@
+{block content}
+    {include '../common/_monthSetHollidayCommonMenuTom.latte'}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="tabbable">
+                {include '../common/_monthSetHollidaysCommonMenu.latte'}
+
+                <div class="tab-content">
+                    <div id="home" class="tab-pane fade active in">
+                        {control form}
+
+
+                        <!-- /.col-lg-6 -->
+                        <div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Dovolenky {$month_set->month|date:'d. m. Y'}
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Zaměstnanec</th>
+                                                <th>Úvazek</th>
+                                                <th>Od</th>
+                                                <th>Do</th>
+                                                <th>Typ</th>
+                                                <th>Nástroje</th>
+                                            </tr>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {foreach $hollidays as $holliday}
+                                                {include #table-row 'holliday' => $holliday}
+                                            {/foreach}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- /.table-responsive -->
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                        </div>
+                        <!-- /.col-lg-6 -->
+
+                    </div>
+
+
+
+                    {*}<div id="messages" class="tab-pane fade">
+                        <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+                    </div>
+
+                    <div id="dropdown1" class="tab-pane fade">
+                        <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+                    </div>
+
+                    <div id="dropdown2" class="tab-pane fade">
+                        <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin.</p>
+                    </div>*}
+                </div>
+            </div>
+        </div><!-- /.col -->
+
+    </div>
+
+
+
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$holliday->id}</td>
+        <td>{$holliday->employee->getF_name()} {$holliday->employee->getL_name()}</td>
+        <td>{if $holliday->commitment == null}-{else}{$holliday->commitment->name}{/if}</td>
+        <td>{$holliday->start|date:'d. m. Y'} {if $holliday->half_day_start}<i class="fa fa-star green"></i>{/if}</td>
+        <td>{$holliday->stop|date:'d. m. Y'} {if $holliday->half_day_stop}<i class="fa fa-star green"></i>{/if}</td>
+        <td>{$holliday->type|commitment}</td>
+        <td><a href="{plink delete! $holliday->id}"><i class="fa ace-icon fa-close red"></i></a> </td>
+    </tr>
+{/define}
+
+{block #css}
+    <link href="{$basePath}/assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <link href="{$basePath}/assets/css/chosen.min.css" rel="stylesheet" type="text/css">
+{/block}
+
+{block #scripts}
+
+    <script src="{$basePath}/assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{$basePath}/assets/js/chosen.jquery.min.js"></script>
+
+
+    <script>
+
+
+
+        function checkFormStatus() {
+            var start = $('.date-from').val();
+            var stop = $('.date-to').val();
+
+            var employeeSelect = $('.month-set-holliday-form-employee-select').val();
+            var commitmentSelect = $('.commitment-select option').length;
+
+            console.log(commitmentSelect);
+            if( employeeSelect == 0 || commitmentSelect < 2 ) {
+                $('.date-from').prop('disabled', true);
+                $('.date-to').prop('disabled', true);
+                $('.submit').prop('disabled', true);
+                $('.half-day-start').prop('disabled', true);
+                $('.half-day-stop').prop('disabled', true);
+                if(commitmentSelect < 2)
+                    $('.commitment-select').prop('disabled', true);
+
+            }
+            else {
+                $('.date-from').prop('disabled', false);
+                $('.date-to').prop('disabled', false);
+                $('.half-day-start').prop('disabled', false);
+                $('.half-day-stop').prop('disabled', false);
+                if( $('.commitment-select').val() == 0 ) {
+                    $('.submit').prop('disabled', true);
+                }
+                else {
+                    $('.submit').prop('disabled', false);
+                }
+                $('.commitment-select').prop('disabled', false);
+            }
+        }
+
+        function datepicketInit() {
+            $.datepicker.regional['cs'] = {
+                closeText: 'Cerrar',
+                prevText: 'Předchozí',
+                nextText: 'Další',
+                currentText: 'Hoy',
+                monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen', 'Červenec','Srpen','Září','Říjen','Listopad','Prosinec'],
+                monthNamesShort: ['Le','Ún','Bř','Du','Kv','Čn', 'Čc','Sr','Zá','Ří','Li','Pr'],
+                dayNames: ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'],
+                dayNamesShort: ['Ne','Po','Út','St','Čt','Pá','So',],
+                dayNamesMin: ['Ne','Po','Út','St','Čt','Pá','So'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd.mm.yy',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''};
+
+            $.datepicker.setDefaults($.datepicker.regional['cs']);
+
+
+            var startDate  = new Date( {$month_set->month|date:'m'} + '/01/' + {$month_set->month|date:'Y'} );
+            var stopDate = new Date( {$month_set->month|date:'m'} + '/01/' + {$month_set->month|date:'Y'} );
+            stopDate.setMonth(stopDate.getMonth()+1);
+
+            $( ".date-from" ).datepicker({ defaultDate: startDate, minDate: startDate, maxDate: stopDate, beforeShowDay: $.datepicker.noWeekends });
+            $( ".date-to" ).datepicker({ defaultDate: startDate, minDate: startDate, maxDate: stopDate, beforeShowDay: $.datepicker.noWeekends });
+        }
+
+        $( document ).ready(function(){
+            datepicketInit();
+            checkFormStatus();
+            $('.month-set-holliday-form-employee-select').chosen();
+            $('.chosen-select').chosen();
+
+        });
+
+        $(document).ajaxComplete(function() {
+            datepicketInit();
+            checkFormStatus();
+            $('.month-set-holliday-form-employee-select').chosen();
+            $('.chosen-select').chosen();
+        });
+
+        $(document).on('change', '.month-set-holliday-form-employee-select', function(e){
+
+            $.nette.ajax({
+                type: "GET",
+                url: {link form:setEmployee!},
+                data: {
+                    'form-id': $(this).val()
+                },
+                success: function(){
+                    datepicketInit();
+                    checkFormStatus();
+                }
+            });
+
+        });
+
+        $(document).on('change', '.commitment-select', function(e){
+
+            $.nette.ajax({
+                type: "GET",
+                url: {link form:setCommitment!},
+                data: {
+                    'form-id': $(this).val()
+                },
+                success: function(){
+                    datepicketInit();
+                    checkFormStatus();
+                }
+            });
+            $('#commitment-id').val($(this).val());
+        });
+
+        $(document).on('change', '.date-from, .date-to', function(e){
+            checkFormStatus();
+        });
+
+
+    </script>
+{/block}

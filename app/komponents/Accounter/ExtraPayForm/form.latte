@@ -1,0 +1,32 @@
+{block}
+
+    {snippet extra-pay-form}
+        <div class="row">
+            <div class="col-xs-12 form-group">
+                {form form class => 'form-horizontal'}
+
+                    {if $form->hasErrors()}
+                        {foreach $form->errors as $error}
+                            <div class="alert alert-danger">
+                                <strong>Chyba: </strong>{$error}
+                            </div>
+                        {/foreach}
+                    {/if}
+
+                    {foreach $form->getControls() as $control}
+                        <div class="input-group col-xs-3">
+                            {if $control->getName() == 'employee' || $control->getName() == 'commitment'}
+                                {input $control }
+                            {else}
+                                {input $control 'placeholder' => $control->caption}
+                            {/if}
+                        </div>
+                    {/foreach}
+                {/form}
+            </div>
+        </div>
+    {/snippet}
+
+{/block}
+
+

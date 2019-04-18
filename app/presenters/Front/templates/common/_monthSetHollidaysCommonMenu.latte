@@ -1,0 +1,35 @@
+{block}
+
+    <ul class="nav nav-tabs">
+        <li class="{if $action_name == 'Front:MonthSetHollidays:default'}active{/if}">
+            <a  href="{plink MonthSetHollidays:default $month_set->id}">
+                <i class="green ace-icon fa fa-home bigger-120"></i>
+                Dovolená
+                {if count($month_set->hollidays)}
+                    <span class="badge badge-danger">{count($month_set->hollidays)}</span>
+                {/if}
+            </a>
+        </li>
+
+        <li class="{if $action_name == 'Front:MonthSetStudyHollidays:default'}active{/if}">
+            <a  href="{plink MonthSetStudyHollidays:default $month_set->id}" >
+                <i class="blue ace-icon fa fa-graduation-cap bigger-120"></i>
+                Studijní volno
+                {if count($month_set->study_hollidays)}
+                    <span class="badge badge-danger">{count($month_set->study_hollidays)}</span>
+                {/if}
+            </a>
+        </li>
+
+        <li class="{if $action_name == 'Front:MonthSetDoctorHollidays:default'}active{/if}">
+            <a  href="{plink MonthSetDoctorHollidays:default $month_set->id}" >
+                <i class="pink ace-icon fa fa-user-md bigger-120"></i>
+                Návštěva lékaře
+                {if count($month_set->doctor_hollidays)}
+                    <span class="badge badge-danger">{count($month_set->doctor_hollidays)}</span>
+                {/if}
+            </a>
+        </li>
+
+    </ul>
+{/block}

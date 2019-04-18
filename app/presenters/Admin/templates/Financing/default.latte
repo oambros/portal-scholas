@@ -1,0 +1,50 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Druhy financování{if isset($main_subject)} {$main_subject->name} {/if}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Název</th>
+                                <th>Nástroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $financings as $financing}
+                                {include #table-row 'financing' => $financing}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    {if isset($main_subject->id)}
+        <a class="btn btn-info" href="{plink Financing:add $main_subject->id }">Přidej financování</a>
+    {/if}
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$financing->id}</td>
+        <td>{$financing->name}</td>
+        <td> <a href="{*plink Commitment:editCommitment $commitment->id*}">Upravit</a> | <a href="{*plink delete! $commitment->id*}">delete</a> </td>
+    </tr>
+{/define}

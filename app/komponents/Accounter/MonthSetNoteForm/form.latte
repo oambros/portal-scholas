@@ -1,0 +1,30 @@
+{block}
+
+    <div class="row">
+        <div class="col-xs-12 form-group">
+            {form form class => 'form-horizontal'}
+
+                {if $form->hasErrors()}
+                    {foreach $form->errors as $error}
+                        <div class="alert alert-danger">
+                            <strong>Chyba: </strong>{$error}
+                        </div>
+                    {/foreach}
+                {/if}
+
+                {foreach $form->getControls() as $control}
+                        {if $control->getName() != 'submit'}
+                            {input $control}
+
+                        {else}
+                            <p>
+                            {input $control}
+                            </p>
+                        {/if}
+
+
+                {/foreach}
+            {/form}
+        </div>
+    </div>
+{/block}

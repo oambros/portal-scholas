@@ -1,0 +1,56 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Přístupy pro: {$MainSubject->name}
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Login</th>
+                                <th>Email</th>
+                                <th>Aktivní</th>
+                                <th>Nástroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $ClientUsers as $user}
+                                {include #table-row 'user' => $user}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <div class="row">
+        {if isset($MainSubject)}
+            <a class="btn btn-info" href="{plink ClientUser:addClientUser $MainSubject->getId() }">Přidej uživatele</a>
+        {/if}
+    </div>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$user->id}</td>
+        <td>{$user->login}</td>
+        <td>{$user->email}</td>
+        <td>{if $user->active == true}<i class="fa fa-eye" title="Aktivní"></i>{else}<i class="fa fa-eye-slash" title="Neaktivní"></i> {/if}</td>
+        <td><a href="{plink ClientUser:editClientUser $user->id}"> Upravit </a> | <a href="{plink DeleteClientUser! $user->id}">Smazat</a> </td>
+    </tr>
+{/define}

@@ -1,0 +1,58 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Typy příplatků
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Název</th>
+                                <th>Ikona</th>
+                                <th>odmdr</th>
+                                <th>Formulář</th>
+                                <th>Aktivní</th>
+                                <th>Nástroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $ExtraPayTypes as $type}
+                                {include #table-row 'type' => $type}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+
+        <a class="btn btn-info" href="{plink ExtraPayType:add }">Přidej typ</a>
+
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$type->id}</td>
+        <td>{$type->name}</td>
+        <td><i class="ace-icon {$type->icon_color} fa {$type->icon_class}"></i> </td>
+        <td>{$type->odmdr}</td>
+        <td>{$type->form_type}</td>
+        <td>{if $type->active} <i class="ace-icon green fa fa-eye"></i> {else} <i class="ace-icon grey fa fa-eye-slash"></i> {/if}</td>
+        <td><a href="{plink ExtraPayType:edit $type->id}"> <i class="ace-icon info fa fa-edit"></i> </a> | <a href="{plink delete! $type->id}"><i class="ace-icon red fa fa-times"></i></a> </td>
+    </tr>
+{/define}

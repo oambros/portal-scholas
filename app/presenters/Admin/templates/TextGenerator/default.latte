@@ -1,0 +1,61 @@
+{block content}
+    {control textGenerator}
+{/block}
+
+{block #scripts}
+    <script>
+
+        $(document).on('change', '#category-filter', function(e){
+            var category = $(this).val();
+
+            var snippetName = 'snippet-textGenerator-generator-table';
+            $.ajax({
+                url: {link textGenerator:setFilters!},
+                data: { category_filter: category},
+                dataType: "json",
+                type: "POST",
+                beforeSend: function() {
+                    $('#'+snippetName).html('<div class="center"><i class="ace-icon fa fa-spinner fa-spin blue bigger-300"></i></div>');
+                },
+                success: function( payload ) {
+                    $('#'+snippetName).html(payload.snippets[snippetName]);
+                }
+            });
+
+        });
+
+        $(document).on('click', '.text-item', function(e){
+            e.preventDefault();
+            var new_value = $(this).data('text');
+            var old_value = $('#generated-text').val();
+            var delimiter = $('input[name=delimiter]:checked').val();
+            var uppercase = $('input[name=first_uppercase]:checked').val();
+
+            if(old_value.length) {
+                if(uppercase) {
+                    $('#generated-text').val(old_value+delimiter+' '+applySentenceCase(new_value));
+                }
+                else {
+                    $('#generated-text').val(old_value+delimiter+' '+new_value);
+                }
+
+            }
+            else {
+                if(uppercase) {
+                    $('#generated-text').val(applySentenceCase(new_value));
+                }
+                else {
+                    $('#generated-text').val(new_value);
+                }
+
+            }
+
+
+        });
+
+        function applySentenceCase(string)
+        {
+            return string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
+        }
+    </script>
+{/block}

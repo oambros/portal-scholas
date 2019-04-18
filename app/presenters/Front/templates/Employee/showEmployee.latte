@@ -1,0 +1,87 @@
+{block content}
+
+
+    <div class="row">
+        <div class="profile-user-info profile-user-info-striped">
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Osobní číslo</div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{$Employee->oscis}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Jméno </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{$Employee->f_name}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Přijmení </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{$Employee->l_name}</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Činnosti </div>
+
+                <div class="profile-info-value">
+                    <i class="fa fa-map-marker light-orange bigger-110"></i>
+                    {if count($Employee->commitments)}
+                        {foreach $Employee->commitments as $commitment}
+                            <span class="editable editable-click">{$commitment->name}</span>
+                        {/foreach}
+                    {/if}
+
+
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Rodné číslo</div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" >{if $Employee->id_num}{$Employee->id_num}{else} - {/if}</span>
+                </div>
+            </div>
+
+            {*}<div class="profile-info-row">
+                <div class="profile-info-name"> Věk </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="age">38</span>
+                </div>
+            </div>*}
+
+            {*}<div class="profile-info-row">
+                <div class="profile-info-name"> Joined </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="signup">2010/06/20</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> Last Online </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="login">3 hours ago</span>
+                </div>
+            </div>
+
+            <div class="profile-info-row">
+                <div class="profile-info-name"> About Me </div>
+
+                <div class="profile-info-value">
+                    <span class="editable editable-click" id="about">Editable as WYSIWYG</span>
+                </div>
+            </div>
+            *}
+        </div>
+    </div>
+{/block}

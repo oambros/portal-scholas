@@ -1,0 +1,40 @@
+{block #breadcrumbs}
+    <div class="breadcrumbs" id="breadcrumbs">
+
+        <script type="text/javascript">
+            try { ace.settings.check('breadcrumbs' , 'fixed') } catch(e) { }
+        </script>
+
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="{plink Homepage:default}">Domů</a>
+            </li>
+
+            {if count($bread_crumbs) > 0}
+                {foreach $bread_crumbs as $bread}
+                    {if !$iterator->isLast()}
+                        <li>
+                            {if isset($bread['link_param'])}
+                                <a href="{plink $bread['link'] $bread['link_param']}">{$bread['title']}</a>
+                            {else}
+                                <a href="{plink $bread['link']}">{$bread['title']}</a>
+                            {/if}
+
+                        </li>
+                    {else}
+                        <li class="active">
+                            {$bread['title']}
+                        </li>
+                    {/if}
+                {/foreach}
+            {/if}
+        </ul><!-- /.breadcrumb -->
+
+        <div class="nav-search" id="nav-search">
+
+        </div><!-- /.nav-search -->
+    </div>
+
+
+{/block}

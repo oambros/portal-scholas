@@ -1,0 +1,49 @@
+{block content}
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Seznam typů subjektů
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>název</th>
+                                <th>Počet</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $subject_types as $type}
+                                {include #table-row 'type' => $type}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink GdprSubjectType:addSubjectType}">Přidej typ</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$type->id}</td>
+        <td>{$type->name}</td>
+        <td>{count($type->gdpr_subjects)}</td>
+        <td><a href="{plink GdprSubjectType:editSubjectType id => $type->id}">Upravit</a> | <a href="{plink deleteType! id => $type->id}">delete</a> </td>
+    </tr>
+{/define}

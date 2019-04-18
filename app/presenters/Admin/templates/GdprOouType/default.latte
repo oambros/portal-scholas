@@ -1,0 +1,50 @@
+{block content}
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Seznam typu osobních údajů [{count($oou_types)}]
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+
+                                <th>Jméno</th>
+                                <th>Typ</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $oou_types as $type}
+                                {include #table-row 'type' => $type}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink GdprOouType:addOouType}">Přidej ty ou</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$type->id}</td>
+        <td>{$type->name}</td>
+        <td>{*if isset($subject->gdpr_subject_type->name)}{$subject->gdpr_subject_type->name}{else}-{/if*}-</td>
+        <td><a href="{plink GdprOouType:editOouType id => $type->id}">Upravit</a> | <a href="{*plink deleteSubject! id => $subject->id*}">delete</a> </td>
+    </tr>
+{/define}

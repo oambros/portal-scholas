@@ -1,0 +1,48 @@
+{block content}
+
+    <div class="row">
+
+        <!-- /.col-lg-6 -->
+        <div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Inventář
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Jméno</th>
+                                <th>Nastroje</th>
+                            </tr>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $inventoryItems as $item}
+                                {include #table-row 'item' => $item}
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-6 -->
+    </div>
+    <a class="btn btn-info" href="{plink Inventory:addInventoryItem}">Přidej položku</a>
+{/block}
+
+{define #table-row}
+    <tr>
+        <td>{$item->id}</td>
+        <td>{$item->name}</td>
+        <td><a href="{plink Inventory:editInventoryItem id => $item->id}">Upravit</a> | <a href="{plink deleteInventoryItem! id => $item->id}">delete</a> </td>
+    </tr>
+{/define}

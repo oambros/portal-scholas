@@ -1,0 +1,34 @@
+{
+	"name": "nette/sandbox",
+	"description": "The sandbox is a pre-packaged Nette Framework project, basic configured structure for your application.",
+	"homepage": "http://nette.org",
+	"type": "project",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "http://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": ">= 5.3.7",
+		"nette/nette": "~2.3.0",
+		"dg/adminer-custom": "~1.6",
+		"kdyby/doctrine": "2.3",
+		"kdyby/doctrine-magic-accessors": "^1.0",
+		"gedmo/doctrine-extensions": "^2.4",
+		"kdyby/console": "2.4.0",
+		"olicek/google-map-api": "dev-master",
+		"kdyby/doctrine-collections-readonly": "^1.0",
+		"ohweb/nette-csv-response": "@dev",
+		"joseki/pdf-response": ">= 2.1",
+		"beberlei/DoctrineExtensions": "^1.1"
+	},
+	"require-dev": {
+		"nette/tester": "~1.3"
+	}
+}
